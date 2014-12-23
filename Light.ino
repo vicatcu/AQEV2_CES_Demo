@@ -3,6 +3,7 @@ void initializeLight(){
 }
 
 float getLight(){
+  const float volts_per_tick = 5.0f/1024.0f;
   uint16_t sum = 0;
   uint16_t dummy = analogRead(A7);
   // oversample threading
@@ -10,5 +11,5 @@ float getLight(){
     sum += analogRead(A7);
   }
   
-  return sum / 32.0;
+  return (sum / 32.0) * volts_per_tick;
 }
