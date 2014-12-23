@@ -38,6 +38,7 @@ void initializeLCD(){
   
   lcd.begin(16, 2);
   
+  /*
   lcd.setCursor(0, 0);
   lcd.print(F("Air Quality Egg"));
   lcd.setCursor(3, 1);
@@ -50,18 +51,40 @@ void initializeLCD(){
   lcd.setCursor(7, 1);
   lcd.print(F("Device"));  
   delay(1000);
+  */
 }
 
 // this task gets updates the display periodically
 // to cycle through showing the sensor values
 void lcdUpdateTask(){
-  static uint8_t sensor_to_display = 0;
-  static float last_sensor_value[NUM_SENSORS] = {0};
+  static int8_t sensor_to_display = -2;
+  static uint32_t last_sensor_value[NUM_SENSORS] = {0};
   static uint8_t not_first[NUM_SENSORS] = {0};
  
   uint8_t len = 0;
   char buf[32];
-  PGM_P p;
+  PGM_P p;  
+  
+  // display the banner screens
+  if(sensor_to_display < 0){
+    lcd.clear();
+    switch(sensor_to_display){
+    case -2:
+      lcd.setCursor(0, 0);
+      lcd.print(F("Air Quality Egg"));
+      lcd.setCursor(3, 1);
+      lcd.print(F("Version 2"));    
+      break;
+    case -1:
+      lcd.setCursor(1, 0);
+      lcd.print(F("by: Wicked"));
+      lcd.setCursor(7, 1);
+      lcd.print(F("Device"));    
+      break; 
+    }
+    sensor_to_display++;
+    return;
+  }
   
   // copy the name into ram
   memcpy_P(&p, &sensor_names[sensor_to_display], sizeof(PGM_P));
@@ -90,15 +113,15 @@ void lcdUpdateTask(){
   strcat_P(buf, p);
   len = strlen(buf);
   
-  
+  uint32_t sensor_value_int = (uint32_t) (sensor_value*100);
   if(not_first[sensor_to_display]){
     // after the first sample, include the arrow symbols
     lcd.setCursor((16 - len)/2 - 2, 1); // center and leave space for arrow
     
-    if(sensor_value > last_sensor_value[sensor_to_display]){
+    if(sensor_value_int > last_sensor_value[sensor_to_display]){
       lcd.write((uint8_t) 0);    
     }
-    else if(sensor_value < last_sensor_value[sensor_to_display]){
+    else if(sensor_value_int < last_sensor_value[sensor_to_display]){
       lcd.write((uint8_t) 1);
     }
     else{
@@ -113,11 +136,11 @@ void lcdUpdateTask(){
     lcd.print(buf);
   }
   
-  
+  last_sensor_value[sensor_to_display] = sensor_value_int;
   not_first[sensor_to_display] = true;
   // get ready to display the next sensor value
   sensor_to_display++;
   if(sensor_to_display >= NUM_SENSORS){
-    sensor_to_display = 0; 
+    sensor_to_display = -2; 
   }
 }

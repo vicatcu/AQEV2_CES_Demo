@@ -25,7 +25,7 @@ void initializeScheduler(){
   // tasks[0].task = &exampleTask; // call the function exampleTask          //
   //                                                                         //
   /////////////////////////////////////////////////////////////////////////////
-  tasks[0].task_period = 1000; // every 10 seconds...
+  tasks[0].task_period = 250;
   tasks[0].task = &sampleSensorsTask; // collect into the moving average window 
  
   tasks[1].task_period = 2000;   // every 2 seconds...

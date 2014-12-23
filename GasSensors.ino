@@ -110,22 +110,32 @@ float burstSampleADC(void){
   return (1.0f * burst_sample_total) / NUM_SAMPLES_PER_BURST;
 }
 
+
+//Cx = (Vout - Vzero) / ( nA/ppm * V/nA )  
 float getO3Sample(){
   selectSlot1(); //O3  
-  float sensor_value = burstSampleADC();
+  float voltage = burstSampleADC() * 62.5e-6; //62.5 microvolts
+  float sensor_value = -1.0f * (voltage - 0.0f) / 0.00640; // M = 0.00640 V/ppm for 051514B-07
+  sensor_value /= 1000.0f;
   return sensor_value;
 }
 
 float getNO2Sample(){
   selectSlot2(); //NO2  
-  float sensor_value = burstSampleADC();
+  float voltage = burstSampleADC() * 62.5e-6; //microvolts
+  float sensor_value = -1.0f * (voltage - 0.0f) / 0.0188; // M = 0.0188 V/ppm for 051514B-11
+  sensor_value /= 1000.0f;
   return sensor_value;
 }
 
 float getCOSample(){
   selectSlot3(); //CO  
-  float sensor_value = burstSampleADC();
+  float voltage = burstSampleADC() * 62.5e-6; //microvolts
+  float sensor_value = -1.0f * (voltage - 0.0f) / 0.0002; // M = 0.0002 V/ppm for 032114A-35 
+  sensor_value /= 1000.0f;  
   return sensor_value;
 }
+
+
 
 
