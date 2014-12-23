@@ -1,17 +1,15 @@
-#define NUM_SAMPLES_TO_AVERAGE (32)
-#define NO2_INDEX   (0)
-#define CO_INDEX    (1)
-#define O3_INDEX    (2)
-#define TEMP_INDEX  (3)
-#define HUM_INDEX   (4)
-#define LIGHT_INDEX (5)
+#include "AQEV2_Constants.h"
 
-float sensor_averaging_window[6][NUM_SAMPLES_TO_AVERAGE];
+
+
+float sensor_averaging_window[NUM_SENSORS][NUM_SAMPLES_TO_AVERAGE];
 uint8_t sensor_averaging_window_index = 0;
 uint8_t num_values_collected = 1; // so as not to average empty buffer space
 
 void addValueToAveragingWindow(float value, uint8_t sensor_index){
-  sensor_averaging_window[sensor_index][sensor_averaging_window_index] = value;
+  if(sensor_index < NUM_SENSORS){
+    sensor_averaging_window[sensor_index][sensor_averaging_window_index] = value;
+  }
 }
 
 void advanceAveragingWindowIndex(void){

@@ -111,18 +111,21 @@ float burstSampleADC(void){
 }
 
 float getO3Sample(){
-  selectSlot1(); //O3
-  return burstSampleADC();
+  selectSlot1(); //O3  
+  float sensor_value = burstSampleADC();
+  return sensor_value;
 }
 
 float getNO2Sample(){
-  selectSlot2(); //NO2
-  return burstSampleADC();
+  selectSlot2(); //NO2  
+  float sensor_value = burstSampleADC();
+  return sensor_value;
 }
 
 float getCOSample(){
-  selectSlot3(); //CO
-  return burstSampleADC();
+  selectSlot3(); //CO  
+  float sensor_value = burstSampleADC();
+  return sensor_value;
 }
 
 

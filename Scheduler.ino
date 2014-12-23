@@ -25,6 +25,11 @@ void initializeScheduler(){
   // tasks[0].task = &exampleTask; // call the function exampleTask          //
   //                                                                         //
   /////////////////////////////////////////////////////////////////////////////
+  tasks[0].task_period = 1000; // every 10 seconds...
+  tasks[0].task = &sampleSensorsTask; // collect into the moving average window 
+ 
+  tasks[1].task_period = 2000;   // every 2 seconds...
+  tasks[1].task = &lcdUpdateTask;
  
   TCCR3B = _BV(WGM32) | _BV(CS31) | _BV(CS30); // prescaler=64, enable CTC mode
   OCR3A = 250;                                 // compare match every 250 ticks
