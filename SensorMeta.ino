@@ -25,7 +25,7 @@ const char Sensor_Display_Units_CO[] PROGMEM = " ppm";
 const char Sensor_Display_Units_O3[] PROGMEM = " ppb";
 const char Sensor_Display_Units_TEMP[] PROGMEM = {' ', 223, 'C', '\0'};
 const char Sensor_Display_Units_HUM[] PROGMEM = " %";
-const char Sensor_Display_Units_LIGHT[] PROGMEM = "";
+const char Sensor_Display_Units_LIGHT[] PROGMEM = " V";
 
 // the order here must be kept consistent with 
 // the index order in AQEV2_Constants
